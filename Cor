@@ -1,0 +1,5 @@
+package BuscaProfundidade;
+
+public enum Cor {
+    Branco, Cinza, Preto;
+}
