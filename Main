@@ -1,0 +1,18 @@
+package BuscaProfundidade;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Grafo g = new Grafo();
+        for (int i = 0; i < 10; i++) {
+            g.adicionarVertice(new Vertice(i));
+        }
+        for (int i = 0; i < 10; i++) {
+            g.buscarVertice(i);
+            g.adicionarAresta(g.buscarVertice(i), g.buscarVertice(i + 1));
+        }
+        System.out.println("Quantidade de Arestas :"+ g.qtdArestas());
+        System.out.println("Quantidade de Vértices ;"+ g.qtdVertices());
+        g.dfsStart(g);
+    }
+}
