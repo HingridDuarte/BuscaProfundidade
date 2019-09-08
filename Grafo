@@ -1,0 +1,98 @@
+package BuscaProfundidade;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class Grafo {
+
+    private ArrayList<Vertice> vertices = null;
+    private ArrayList<Aresta> arestas = null;
+    
+    static int tempo;
+
+    public Grafo() {
+        vertices = new ArrayList<>();
+        arestas = new ArrayList<>();
+    }
+
+    public ArrayList<Vertice> getVertices() {
+        return vertices;
+    }
+
+    public void setVertices(ArrayList<Vertice> vertices) {
+        this.vertices = vertices;
+    }
+
+    public ArrayList<Aresta> getArestas() {
+        return arestas;
+    }
+
+    public void setArestas(ArrayList<Aresta> arestas) {
+        this.arestas = arestas;
+    }
+
+    public void adicionarVertice(Vertice novoVertice) {
+        vertices.add(novoVertice);
+    }
+
+    public Aresta adicionarAresta(Vertice v1, Vertice v2) {
+        Aresta novaAresta = new Aresta(v1, v2);
+        novaAresta.setId(arestas.size());
+        arestas.add(novaAresta);
+        return novaAresta;
+    }
+
+    public int qtdVertices() {
+        return vertices.size();
+    }
+
+    public int qtdArestas() {
+        return arestas.size();
+    }
+
+    public Aresta buscarAresta(int idAresta) {
+        Aresta busca = null;
+        if (idAresta < arestas.size() && idAresta >= 0) {
+            busca = arestas.get(idAresta);
+        }
+        return busca;
+    }
+
+    public Vertice buscarVertice(int idVertice) {
+        Vertice busca = null;
+        if (idVertice < vertices.size() && idVertice >= 0) {
+            busca = vertices.get(idVertice);
+        }
+        return busca;
+    }
+
+    private void dfsVisit(Grafo g,Vertice u) {
+        u.setCor(Cor.Cinza);
+        u.setI(tempo++);
+        for(Vertice v : u.getAdjacentes()){
+            if(v.getCor() == Cor.Branco){
+                v.setAnte(u);
+                dfsVisit(g,v);
+            }
+        }
+        u.setCor(Cor.Preto);
+        u.setF(tempo++);
+    }
+
+    public void dfsStart(Grafo g) {
+        for (Vertice v : g.getVertices()) {
+            v.setCor(Cor.Branco);
+            v.setI(-1);
+            v.setF(-1);
+            v.setAnte(null);
+        }
+        tempo = 1;
+        for (Vertice v : g.getVertices()) {
+            if(v.getCor() == Cor.Branco){
+                dfsVisit(g,v);
+            }
+        }
+    }
+
+}
